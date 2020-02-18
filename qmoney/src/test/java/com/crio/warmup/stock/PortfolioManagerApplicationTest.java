@@ -85,7 +85,7 @@ class PortfolioManagerApplicationTest {
     List<String> responses = PortfolioManagerApplication.debugOutputs();
     Assertions.assertTrue(responses.get(0).contains("trades.json"));
     Assertions.assertTrue(responses.get(1).contains("trades.json"));
-    Assertions.assertTrue(responses.get(2).contains("com.fasterxml.jackson.databind.ObjectMapper"));
+    Assertions.assertTrue(responses.get(2).contains("ObjectMapper"));
     Assertions.assertTrue(responses.get(3).contains("mainReadFile"));
   }
 
