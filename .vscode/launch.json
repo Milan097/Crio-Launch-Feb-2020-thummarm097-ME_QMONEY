@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Debug (Launch) - Module 1",
+      "request": "launch",
+      "mainClass": "${file}",
+      "args": "trades.json"
+    },
+    {
+      "type": "java",
+      "name": "Debug (Launch) - Module 2+",
+      "request": "launch",
+      "mainClass": "${file}",
+      "args": "trades.json 2019-12-12"
+    }
+  ]
+}
