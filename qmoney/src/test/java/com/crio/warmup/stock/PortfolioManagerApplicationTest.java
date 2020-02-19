@@ -3,8 +3,6 @@ package com.crio.warmup.stock;
 
 import com.crio.warmup.stock.dto.AnnualizedReturn;
 import com.crio.warmup.stock.dto.PortfolioTrade;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class PortfolioManagerApplicationTest {
 
   @Test
-  void mainReadFile() throws IOException, URISyntaxException {
+  void mainReadFile() throws Exception {
     //given
     String filename = "trades.json";
     List<String> expected = Arrays.asList(new String[]{"AAPL", "MSFT", "GOOGL"});
@@ -30,7 +28,7 @@ class PortfolioManagerApplicationTest {
 
 
   @Test
-  void mainReadQuotes() throws IOException, URISyntaxException {
+  void mainReadQuotes() throws Exception {
     //given
     String filename = "trades.json";
     List<String> expected = Arrays.asList(new String[]{"MSFT", "AAPL", "GOOGL"});
@@ -45,7 +43,7 @@ class PortfolioManagerApplicationTest {
 
 
   @Test
-  void mainCalculateAnnualReturn() throws IOException, URISyntaxException {
+  void mainCalculateAnnualReturn() throws Exception {
     //given
     String filename = "trades.json";
     //when
@@ -85,7 +83,7 @@ class PortfolioManagerApplicationTest {
     List<String> responses = PortfolioManagerApplication.debugOutputs();
     Assertions.assertTrue(responses.get(0).contains("trades.json"));
     Assertions.assertTrue(responses.get(1).contains("trades.json"));
-    Assertions.assertTrue(responses.get(2).contains("com.fasterxml.jackson.databind.ObjectMapper"));
+    Assertions.assertTrue(responses.get(2).contains("ObjectMapper"));
     Assertions.assertTrue(responses.get(3).contains("mainReadFile"));
   }
 
