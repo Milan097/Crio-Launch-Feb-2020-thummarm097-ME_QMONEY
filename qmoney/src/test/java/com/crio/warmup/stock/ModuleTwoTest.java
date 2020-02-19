@@ -1,8 +1,6 @@
 
 package com.crio.warmup.stock;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class ModuleTwoTest {
 
   @Test
-  void mainReadQuotes() throws IOException, URISyntaxException {
+  void mainReadQuotes() throws Exception {
     //given
     String filename = "assessments/trades.json";
     List<String> expected = Arrays.asList(new String[]{"CTS", "CSCO", "MSFT"});
@@ -25,7 +23,7 @@ class ModuleTwoTest {
   }
 
   @Test
-  void mainReadQuotesEdgeCase() throws IOException, URISyntaxException {
+  void mainReadQuotesEdgeCase() throws Exception {
     //given
     String filename = "assessments/empty.json";
     List<String> expected = Arrays.asList(new String[]{});
@@ -39,7 +37,7 @@ class ModuleTwoTest {
   }
 
   @Test
-  void mainReadQuotesInvalidDates() throws IOException, URISyntaxException {
+  void mainReadQuotesInvalidDates() throws Exception {
     //given
     String filename = "assessments/trades_invalid_dates.json";
     //when
@@ -50,7 +48,7 @@ class ModuleTwoTest {
 
 
   @Test
-  void mainReadQuotesInvalidStocks() throws IOException, URISyntaxException {
+  void mainReadQuotesInvalidStocks() throws Exception {
     //given
     String filename = "assessments/trades_invalid_stock.json";
     //when
@@ -60,7 +58,7 @@ class ModuleTwoTest {
   }
 
   @Test
-  void mainReadQuotesOldTrades() throws IOException, URISyntaxException {
+  void mainReadQuotesOldTrades() throws Exception {
     //given
     String filename = "assessments/trades_old.json";
     List<String> expected = Arrays.asList(new String[]{"CTS", "ABBV", "MMM"});

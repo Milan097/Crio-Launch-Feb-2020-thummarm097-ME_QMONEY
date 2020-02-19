@@ -49,7 +49,7 @@ public class PortfolioManagerApplication {
   //  Note - You may have to register on Tiingo to get the api_token.
   //    Please refer the the module documentation for the steps.
   //  Find out the closing price of the stock on the end_date and
-  //  return the list of all symbols in descending order by its close value on end_date
+  //  return the list of all symbols in ascending order by its close value on endDate
   //  Test the function using gradle commands below
   //   ./gradlew run --args="trades.json 2020-01-01"
   //   ./gradlew run --args="trades.json 2019-07-01"
