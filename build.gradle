@@ -6,7 +6,6 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.4.RELEASE")
         classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.7.1")
     }
-    buildDir = '/tmp/external_build'
 }
 
 
@@ -25,6 +24,7 @@ ext {
     jacksonVersion = "2.9.8"
 }
 
+buildDir = '/tmp/external_build'
 
 apply plugin: 'io.spring.dependency-management'
 apply plugin: "idea"
@@ -166,3 +166,4 @@ subprojects {
 
     build.dependsOn installGitHooks
 }
+

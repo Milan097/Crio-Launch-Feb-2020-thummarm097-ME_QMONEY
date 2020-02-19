@@ -1,5 +1,6 @@
 __CRIO__/metadata.json merge=copy-merge
 settings.gradle merge=copy-merge
+build.gradle merge=copy-merge
 qmoney/src/test/java/com/crio/warmup/stock/portfolio/PortfolioManagerTest.java merge=copy-merge
 qmoney/src/test/java/com/crio/warmup/stock/portfolio/PortfolioManagerFactoryTest.java merge=copy-merge
 qmoney/src/test/java/com/crio/warmup/stock/portfolio/PortfolioManagerPerformanceTest.java merge=copy-merge
