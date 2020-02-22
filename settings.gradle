@@ -1,2 +1,2 @@
 include 'qmoney'
-rootProject.name = 'ME_QMONEY_MODULE_JSON_PARSING'
+rootProject.name = 'ME_QMONEY_MODULE_REST_API'
