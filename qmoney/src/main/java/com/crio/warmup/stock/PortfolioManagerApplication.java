@@ -51,12 +51,12 @@ public class PortfolioManagerApplication {
     File file = resolveFileFromResources(args[0]);
     ObjectMapper objectMapper = getObjectMapper();
     List<Trades> allJsonObjects = objectMapper.readValue(file,
-        new TypeReference<List<Trades>>() {});
+                       new TypeReference<List<Trades>>() {});
     List<String> allSymbols = new ArrayList<String>();
     for (Trades obj : allJsonObjects) {
       allSymbols.add(obj.getSymbol());
     }
-    // System.out.print(allSymbols);
+    System.out.print(allSymbols);
     return allSymbols;
   }
 
@@ -130,6 +130,8 @@ public class PortfolioManagerApplication {
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
     printJsonObject(mainReadFile(args));
+
+
 
   }
 }

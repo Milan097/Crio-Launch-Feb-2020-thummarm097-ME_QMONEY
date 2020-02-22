@@ -25,7 +25,7 @@ public class Trades {
   public String getPurchaseDate() {
     return this.purchaseDate;
   }
-
+  
   public void setPurchaseDate(String purchaseDate) {
     this.purchaseDate = purchaseDate;
   }

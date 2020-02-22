@@ -1,4 +1,3 @@
-
 package com.crio.warmup.stock;
 
 import com.crio.warmup.stock.dto.PortfolioTrade;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 
 class PortfolioManagerApplicationTest {
 
@@ -25,6 +23,9 @@ class PortfolioManagerApplicationTest {
     //then
     Assertions.assertEquals(expected, results);
   }
+
+
+
 
 
   @Test
