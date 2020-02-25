@@ -2,7 +2,10 @@
 package com.crio.warmup.stock;
 
 import com.crio.warmup.stock.dto.AnnualizedReturn;
+import com.crio.warmup.stock.dto.Candle;
 import com.crio.warmup.stock.dto.PortfolioTrade;
+import com.crio.warmup.stock.dto.TiingoCandle;
+import com.crio.warmup.stock.dto.TotalReturnsDto;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +15,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;  
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -52,7 +57,38 @@ public class PortfolioManagerApplication {
   //  And make sure that its printing correct results.
 
   public static List<String> mainReadQuotes(String[] args) throws IOException, URISyntaxException {
-     return Collections.emptyList();
+    File file = resolveFileFromResources(args[0]);
+    ObjectMapper objectMapper = getObjectMapper();
+    List<PortfolioTrade> allJsonObjects = objectMapper.readValue(file,
+                       new TypeReference<List<PortfolioTrade>>() {});
+    List<String> allSymbols = new ArrayList<String>();
+    List<TotalReturnsDto> mappingList = getSortedClosingPrice(objectMapper,allJsonObjects,args);
+    Collections.sort(mappingList);
+    for (TotalReturnsDto trDto : mappingList) {
+      allSymbols.add(trDto.getSymbol());
+    }
+    //System.out.print(allSymbols);
+    return allSymbols;
+  }
+
+  public static List<TotalReturnsDto> getSortedClosingPrice(ObjectMapper objectMapper,
+                                      List<PortfolioTrade> allJsonObjects,String[] args)
+                                      throws IOException, URISyntaxException {
+    RestTemplate restTemplate = new RestTemplate();
+    List<TotalReturnsDto> mappingList = new ArrayList<TotalReturnsDto>();
+    for (PortfolioTrade obj : allJsonObjects) {
+      String uri = "https://api.tiingo.com/tiingo/daily/" + obj.getSymbol()
+                        + "/prices?startDate=" + obj.getPurchaseDate() + "&endDate="
+                        + args[1] + "&token=366b6aa86c15fcbe47efcd6b4dc938a33de2f4e0";
+      String result = (restTemplate.getForObject(uri,String.class));
+      List<TiingoCandle> candleList = objectMapper.readValue(result,
+                        new TypeReference<List<TiingoCandle>>() {});;
+      TiingoCandle candleObj = candleList.get(candleList.size() - 1);
+      TotalReturnsDto trDto = new TotalReturnsDto(obj.getSymbol(),candleObj.getClose());
+      mappingList.add(trDto);
+      //System.out.println(obj.getSymbol()+candleObj);
+    }
+    return mappingList;
   }
 
   public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException {
@@ -64,7 +100,7 @@ public class PortfolioManagerApplication {
     for (PortfolioTrade obj : allJsonObjects) {
       allSymbols.add(obj.getSymbol());
     }
-    System.out.print(allSymbols);
+    // System.out.print(allSymbols);
     return allSymbols;
   }
 
