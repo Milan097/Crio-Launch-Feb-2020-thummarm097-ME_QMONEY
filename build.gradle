@@ -167,7 +167,19 @@ subprojects {
     build.dependsOn installGitHooks
 }
 
+task cleanupCrioJars {
+    doLast {
+        def userHome = System.properties['user.home']
+        def mavenDir = new File(userHome, '.m2/repository/com/crio/')
+
+        if (mavenDir.exists()) {
+            delete mavenDir
+        }
+    }
+}
+
 task verifyMavenJarsCreated {
+    dependsOn cleanupCrioJars
     dependsOn publishToMavenLocal
     doLast {
         def userHome = System.properties['user.home']
@@ -188,3 +200,4 @@ task verifyMavenJarsCreated {
         println("All Maven repository files are created and in place")
     }
 }
+
