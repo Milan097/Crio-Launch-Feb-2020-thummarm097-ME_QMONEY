@@ -1,9 +1,7 @@
 
 package com.crio.warmup.stock.dto;
 
-import java.util.Objects;
-
-public class TotalReturnsDto implements Comparable<TotalReturnsDto> {
+public class TotalReturnsDto implements Comparable<TotalReturnsDto> { 
 
   private String symbol;
   private Double closingPrice;
@@ -28,20 +26,6 @@ public class TotalReturnsDto implements Comparable<TotalReturnsDto> {
   public void setClosingPrice(Double closingPrice) {
     this.closingPrice = closingPrice;
   }
-
-  // @Override
-  // public boolean equals(Object it) { 
-  //   if (it instanceof Double) {
-  //     return this.getClosingPrice().equals((Double)it); 
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
-  // @Override
-  // public int hashCode() {
-  //   return Objects.hash(symbol,closingPrice);
-  // }
 
   public boolean equals(Object object) {
     if (this == object) { 

@@ -3,7 +3,7 @@ package com.crio.warmup.stock.dto;
 
 import java.time.LocalDate;
 
-public class PortfolioTrade { //implements Comparable<PortfolioTrade>{
+public class PortfolioTrade { 
 
   public PortfolioTrade() {  }
 
@@ -57,11 +57,5 @@ public class PortfolioTrade { //implements Comparable<PortfolioTrade>{
     return tradeType;
   }
   //solution
-
-  // @Override     
-  // public int compareTo(PortfolioTrade candidate) {          
-  //   return (this.getClode() < candidate.getAge() ? -1 : 
-  //           (this.getAge() == candidate.getAge() ? 0 : 1));     
-  // } 
 
 }
