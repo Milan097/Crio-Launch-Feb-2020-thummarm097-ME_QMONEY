@@ -1,2 +1,2 @@
 include 'qmoney'
-rootProject.name = 'ME_QMONEY_MODULE_CALCULATIONS'
+rootProject.name = 'ME_QMONEY_MODULE_REFACTOR'

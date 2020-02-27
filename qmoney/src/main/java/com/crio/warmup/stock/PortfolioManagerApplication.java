@@ -8,6 +8,8 @@ import com.crio.warmup.stock.dto.TiingoCandle;
 import com.crio.warmup.stock.dto.TotalReturnsDto;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.crio.warmup.stock.portfolio.PortfolioManager;
+import com.crio.warmup.stock.portfolio.PortfolioManagerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
@@ -113,23 +115,6 @@ public class PortfolioManagerApplication {
         lineNumberFromTestFileInStackTrace});
   }
 
-
-  // TODO: CRIO_TASK_MODULE_CALCULATIONS
-  //  Copy the relevant code from #mainReadQuotes to parse the Json into PortfolioTrade list and
-  //  Get the latest quotes from TIingo.
-  //  Now That you have the list of PortfolioTrade And their data,
-  //  With this data, Calculate annualized returns for the stocks provided in the Json
-  //  Below are the values to be considered for calculations.
-  //  buy_price = open_price on purchase_date and sell_value = close_price on end_date
-  //  startDate and endDate are already calculated in module2
-  //  using the function you just wrote #calculateAnnualizedReturns
-  //  Return the list of AnnualizedReturns sorted by annualizedReturns in descending order.
-  //  use gralde command like below to test your code
-  //  ./gradlew run --args="trades.json 2020-01-01"
-  //  ./gradlew run --args="trades.json 2019-07-01"
-  //  ./gradlew run --args="trades.json 2019-12-03"
-  //  where trades.json is your json file
-
   public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args)
       throws IOException, URISyntaxException {
     File file = resolveFileFromResources(args[0]);
@@ -157,17 +142,6 @@ public class PortfolioManagerApplication {
     return annualizedReturns;
   }
 
-  // TODO: CRIO_TASK_MODULE_CALCULATIONS
-  //  annualized returns should be calculated in two steps -
-  //  1. Calculate totalReturn = (sell_value - buy_value) / buy_value
-  //  Store the same as totalReturns
-  //  2. calculate extrapolated annualized returns by scaling the same in years span. The formula is
-  //  annualized_returns = (1 + total_returns) ^ (1 / total_num_years) - 1
-  //  Store the same as annualized_returns
-  //  return the populated list of AnnualizedReturn for all stocks,
-  //  Test the same using below specified command. The build should be successful
-  //  ./gradlew test --tests PortfolioManagerApplicationTest.testCalculateAnnualizedReturn
-
   public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
         PortfolioTrade trade, Double buyPrice, Double sellPrice) {
     Double totalReturn = (sellPrice - buyPrice) / buyPrice; 
@@ -178,12 +152,34 @@ public class PortfolioManagerApplication {
   }
 
 
+  // TODO: CRIO_TASK_MODULE_REFACTOR
+  //  Once you are done with the implementation inside PortfolioManagerImpl and
+  //  PortfolioManagerFactory,
+  //  Create PortfolioManager using PortfoliomanagerFactory,
+  //  Refer to the code from previous modules to get the List<PortfolioTrades> and endDate, and
+  //  call the newly implemented method in PortfolioManager to calculate the annualized returns.
+  //  Test the same using the same commands as you used in module 3
+  //  use gralde command like below to test your code
+  //  ./gradlew run --args="trades.json 2020-01-01"
+  //  ./gradlew run --args="trades.json 2019-07-01"
+  //  ./gradlew run --args="trades.json 2019-12-03"
+  //  where trades.json is your json file
+
+  public static List<AnnualizedReturn> mainCalculateReturnsAfterRefactor(String[] args)
+      throws Exception {
+       String file = args[0];
+       LocalDate endDate = LocalDate.parse(args[1]);
+       String contents = readFileAsString(file);
+       ObjectMapper objectMapper = getObjectMapper();
+       return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate);
+  }
+
+
   public static void main(String[] args) throws Exception {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
-    printJsonObject(mainCalculateSingleReturn(args));
-
+    printJsonObject(mainCalculateReturnsAfterRefactor(args));
   }
 }
 
