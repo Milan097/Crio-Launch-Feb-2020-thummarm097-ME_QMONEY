@@ -7,15 +7,17 @@ import com.crio.warmup.stock.dto.PortfolioTrade;
 import com.crio.warmup.stock.dto.TiingoCandle;
 import com.crio.warmup.stock.dto.TotalReturnsDto;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.crio.warmup.stock.portfolio.PortfolioManager;
 import com.crio.warmup.stock.portfolio.PortfolioManagerFactory;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -30,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.util.FileUtils;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -165,13 +168,23 @@ public class PortfolioManagerApplication {
   //  ./gradlew run --args="trades.json 2019-12-03"
   //  where trades.json is your json file
 
+  public static String readFileAsString(String file) throws IOException, URISyntaxException {
+    return file;
+  }
+
   public static List<AnnualizedReturn> mainCalculateReturnsAfterRefactor(String[] args)
       throws Exception {
-       String file = args[0];
-       LocalDate endDate = LocalDate.parse(args[1]);
-       String contents = readFileAsString(file);
-       ObjectMapper objectMapper = getObjectMapper();
-       return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate);
+    String file = args[0];
+    LocalDate endDate = LocalDate.parse(args[1]);
+    String contents = readFileAsString(file);
+    File file1 = resolveFileFromResources(contents);
+    ObjectMapper objectMapper = getObjectMapper();
+
+    List<PortfolioTrade> portfolioTrades = objectMapper.readValue(file1,
+                    new TypeReference<List<PortfolioTrade>>() {});
+    RestTemplate restTemplate = new RestTemplate();
+    PortfolioManager portfolioManager = PortfolioManagerFactory.getPortfolioManager(restTemplate);
+    return portfolioManager.calculateAnnualizedReturn(portfolioTrades, endDate);
   }
 
 
