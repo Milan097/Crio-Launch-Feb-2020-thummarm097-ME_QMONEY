@@ -155,19 +155,6 @@ public class PortfolioManagerApplication {
   }
 
 
-  // TODO: CRIO_TASK_MODULE_REFACTOR
-  //  Once you are done with the implementation inside PortfolioManagerImpl and
-  //  PortfolioManagerFactory,
-  //  Create PortfolioManager using PortfoliomanagerFactory,
-  //  Refer to the code from previous modules to get the List<PortfolioTrades> and endDate, and
-  //  call the newly implemented method in PortfolioManager to calculate the annualized returns.
-  //  Test the same using the same commands as you used in module 3
-  //  use gralde command like below to test your code
-  //  ./gradlew run --args="trades.json 2020-01-01"
-  //  ./gradlew run --args="trades.json 2019-07-01"
-  //  ./gradlew run --args="trades.json 2019-12-03"
-  //  where trades.json is your json file
-
   public static String readFileAsString(String file) throws IOException, URISyntaxException {
     return file;
   }
@@ -188,11 +175,17 @@ public class PortfolioManagerApplication {
   }
 
 
+
+
+
+
+
+  // new Incoming File.....
+
   public static void main(String[] args) throws Exception {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
-    printJsonObject(mainCalculateReturnsAfterRefactor(args));
   }
 }
 

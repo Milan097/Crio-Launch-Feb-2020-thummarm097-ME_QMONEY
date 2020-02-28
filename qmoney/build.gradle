@@ -58,4 +58,8 @@ test {
 }
 
 
+publishing {
+    publications {
+    }
+}
 

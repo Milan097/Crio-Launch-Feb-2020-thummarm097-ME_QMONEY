@@ -34,6 +34,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   private RestTemplate restTemplate;
   private ObjectMapper objectMapper = getObjectMapper();
 
+
   // Caution: Do not delete or modify the constructor, or else your build will break!
   // This is absolutely necessary for backward compatibility
   protected PortfolioManagerImpl(RestTemplate restTemplate) {
@@ -116,4 +117,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
             + "&token=366b6aa86c15fcbe47efcd6b4dc938a33de2f4e0";
     return uriTemplate;  
   }
+
+
+
 }
