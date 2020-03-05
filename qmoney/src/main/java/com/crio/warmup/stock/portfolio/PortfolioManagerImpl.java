@@ -56,6 +56,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   // run ./gradlew build in order to test yout code, and make sure that
   // the tests and static code quality pass.
 
+  @Override
   public List<AnnualizedReturn> calculateAnnualizedReturn(List<PortfolioTrade> portfolioTrades,
       LocalDate endDate) throws IOException, URISyntaxException {
     List<AnnualizedReturn> annualizedReturns = new ArrayList<AnnualizedReturn>();
