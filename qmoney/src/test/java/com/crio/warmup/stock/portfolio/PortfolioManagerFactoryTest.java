@@ -22,5 +22,10 @@ class PortfolioManagerFactoryTest {
         instanceof PortfolioManager);
   }
 
+  @Test
+  void getPortfolioManagerWithStockQuoteService() {
+    Assertions.assertTrue(PortfolioManagerFactory.getPortfolioManager("tiingo", restTemplate)
+        instanceof PortfolioManager);
+  }
 
 }

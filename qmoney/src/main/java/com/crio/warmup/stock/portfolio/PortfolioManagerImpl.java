@@ -34,7 +34,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
   private RestTemplate restTemplate;
   private ObjectMapper objectMapper = getObjectMapper();
 
-
   // Caution: Do not delete or modify the constructor, or else your build will break!
   // This is absolutely necessary for backward compatibility
   protected PortfolioManagerImpl(RestTemplate restTemplate) {
@@ -86,23 +85,14 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   //CHECKSTYLE:OFF
 
+
+
+
+
   private Comparator<AnnualizedReturn> getComparator() {
     return Comparator.comparing(AnnualizedReturn::getAnnualizedReturn).reversed();
   }
-
-  //CHECKSTYLE:OFF
-
-  // TODO: CRIO_TASK_MODULE_REFACTOR
-  //  Extract the logic to call Tiingo thirdparty APIs to a separate function.
-  //  It should be split into fto parts.
-  //  Part#1 - Prepare the Url to call Tiingo based on a template constant,
-  //  by replacing the placeholders.
-  //  Constant should look like
-  //  https://api.tiingo.com/tiingo/daily/<ticker>/prices?startDate=?&endDate=?&token=?
-  //  Where ? are replaced with something similar to <ticker> and then actual url produced by
-  //  replacing the placeholders with actual parameters.
-
-
+  
   public List<TiingoCandle> getStockQuote(String symbol, LocalDate from, LocalDate to)
       throws JsonProcessingException {
       String uri = buildUri(symbol, from, to);
@@ -120,5 +110,12 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
 
+
+
+  // TODO: CRIO_TASK_MODULE_ADDITIONAL_REFACTOR
+  //  Modify the function #getStockQuote and start delegating to calls to
+  //  stockQuoteService provided via newly added constructor of the class.
+  //  You also have a liberty to completely get rid of that function itself, however, make sure
+  //  that you do not delete the #getStockQuote function.
 
 }
