@@ -1,21 +1,48 @@
-
 package com.crio.warmup.stock.quotes;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.SECONDS;
-
+import com.crio.warmup.stock.dto.AlphavantageCandle;
 import com.crio.warmup.stock.dto.AlphavantageDailyResponse;
 import com.crio.warmup.stock.dto.Candle;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDate;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
+
 import org.springframework.web.client.RestTemplate;
 
+
+
 public class AlphavantageService implements StockQuotesService {
+
+  private RestTemplate restTemplate;
+  private ObjectMapper objectMapper = getObjectMapper();
+
+  
+
+  @Override
+  public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to) throws 
+      JsonProcessingException {
+    List<Candle> candles = new ArrayList<>();
+    String uri = buildUri(symbol);
+    String result = restTemplate.getForObject(uri,String.class);
+    AlphavantageDailyResponse response = objectMapper.readValue(result, 
+        new TypeReference<AlphavantageDailyResponse>() {});
+        
+    for (Entry<String, AlphavantageCandle> entry : response.getCandles().entrySet()) {
+      LocalDate date = LocalDate.parse(entry.getKey());
+      if (date.compareTo(from) >= 0 && date.compareTo(to) <= 0) {
+        entry.getValue().setDate(date);
+        candles.add(entry.getValue());
+      }
+
+    }
+    
+    return candles;
+  }
 
   // TODO: CRIO_TASK_MODULE_ADDITIONAL_REFACTOR
   //  Inplement the StockQuoteService interface as per the contracts.
@@ -34,11 +61,26 @@ public class AlphavantageService implements StockQuotesService {
   //  Run the tests using command below and make sure it passes
   //  ./gradlew test --tests AlphavantageServiceTest
   //CHECKSTYLE:OFF
-    //CHECKSTYLE:ON
+
+  private static ObjectMapper getObjectMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
+    return objectMapper;
+  }
+  
+  //CHECKSTYLE:ON
   //TODO: CRIO_TASK_MODULE_ADDITIONAL_REFACTOR
   // Write a method to create appropriate url to call alphavantage service. Method should
   // be using configurations provided in the {@link @application.properties}.
   // Use thie method in #getStockQuote.
+  protected String buildUri(String symbol) {
+    String uriTemplate = "https://www.alphavantage.co/" 
+        + "query?function=TIME_SERIES_DAILY&apikey=FO31JNON0DMGFA3Z&outputsize=full&symbol=" 
+        + symbol;
+    return uriTemplate;  
+  }
 
+  public AlphavantageService(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
+  }
 }
-
